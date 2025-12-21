@@ -26,7 +26,7 @@ License URL: https://creativecommons.org/licenses/by/4.0/
     <link href="{{ asset('../css/simple-line-icons/css/simple-line-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('../css/style.css') }}" rel="stylesheet">
 
-  @php
+@php
     $bgImage = $profile && $profile->profile_image 
         ? Storage::url($profile->profile_image) 
         : asset('img/profile.jpg');
@@ -34,7 +34,7 @@ License URL: https://creativecommons.org/licenses/by/4.0/
 
 <style>
 #about {
-    background-image: url({{ $bgImage }});
+    background-image: url("{{ $bgImage }}");
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
