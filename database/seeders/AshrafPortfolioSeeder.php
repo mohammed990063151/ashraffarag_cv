@@ -15,7 +15,7 @@ class AshrafPortfolioSeeder extends Seeder
             'last_name'  => 'Mahmoud',
             'title'      => 'Marketing & Social Media Specialist',
             'bio'        => 'A highly-driven Marketing & Social Media Specialist with more than 7 years of experience in managing digital marketing strategies, brand positioning, paid advertising, and social media growth. Worked with top-tier companies across the UAE, achieving measurable success in campaign performance, engagement, and brand visibility. Currently leading the marketing department at Enala Hotel as the Marketing Manager.',
-            'profile_image' => 'profile/ashraf.jpg',
+            '' => 'profile/ashraf.jpg',
             'address'    => 'Dubai, United Arab Emirates',
             'location'   => 'Dubai',
             'phone'      => '+971500000000',

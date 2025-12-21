@@ -42,7 +42,7 @@ class AdminController extends Controller
             'location' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:20',
             'email' => 'required|email',
-            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'facebook_url' => 'nullable|url',
             'twitter_url' => 'nullable|url',
             'linkedin_url' => 'nullable|url',
