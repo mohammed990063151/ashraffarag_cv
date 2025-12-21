@@ -28,7 +28,7 @@ License URL: https://creativecommons.org/licenses/by/4.0/
 
     <style>
     #about {
-    background-image: url("{{ $profile ? asset('ashraffarag_cv/storage/app/public/profile'.$profile->profile_image) : asset('img/profile.jpg') }}");
+    background-image: url("{{ $profile ? asset('ashraffarag_cv/storage/app/public/'.$profile->profile_image) : asset('img/profile.jpg') }}");
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
