@@ -79,18 +79,20 @@ License URL: https://creativecommons.org/licenses/by/4.0/
         <!--====================================================
                         ABOUT
     ======================================================-->
-    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+   
         <section class="resume-section p-3 p-lg-5 d-flex d-column" id="about">
             <div class="my-auto">
                 <img src="{{ asset('ashraffarag_cv/storage/app/public/' . $profile->logo) }}" alt="Logo"  style="
     max-height: 50px !important;
     width: auto !important;
 ">
+
+ <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
                 <h1 class="mb-0">{{ $profile ? $profile->first_name : 'اشرف' }}
                     <span class="text-primary">{{ $profile ? $profile->last_name : 'Bonsen' }}</span>
                 </h1>
                 <div class="subheading mb-5">{{ $profile ? $profile->title : 'THE NEXT BIG IDEA IS WAITING FOR ITS NEXT BIG CHANGER WITH THEMSBIT' }}
-                    <a href="#">THEMSBIT</a>
+                    {{-- <a href="#">THEMSBIT</a> --}}
                 </div>
                 <p class="mb-5" style="max-width: 500px;">{{ $profile ? $profile->bio : 'I am experienced in leveraging agile frameworks to provide a robust synopsis for high level overviews.' }}.</p>
                 {{-- <ul class="list-inline list-social-icons mb-0">
