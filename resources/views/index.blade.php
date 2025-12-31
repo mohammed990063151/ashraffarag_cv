@@ -42,7 +42,10 @@ License URL: https://creativecommons.org/licenses/by/4.0/
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
         <a class="navbar-brand js-scroll-trigger" href="#page-top">
-            <span class="d-block d-lg-none  mx-0 px-0"><img src="{{ asset('ashraffarag_cv/storage/app/public/' . $profile->logo) }}" alt="Logo" class="img-fluid"></span>
+            <span class="d-block d-lg-none  mx-0 px-0"><img src="{{ asset('ashraffarag_cv/storage/app/public/' . $profile->logo) }}" alt="Logo"  style="
+    max-height: 50px !important;
+    width: auto !important;
+"></span>
             <span class="d-none d-lg-block">
           <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="{{ $profile ? asset('ashraffarag_cv/storage/app/public/'.$profile->profile_image) : asset('img/profile.jpg') }}" alt="">
         </span>
