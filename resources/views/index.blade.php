@@ -42,10 +42,7 @@ License URL: https://creativecommons.org/licenses/by/4.0/
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
         <a class="navbar-brand js-scroll-trigger" href="#page-top">
-            <span class="d-block d-lg-none  mx-0 px-0"><img src="{{ asset('ashraffarag_cv/storage/app/public/' . $profile->logo) }}" alt="Logo"  style="
-    max-height: 50px !important;
-    width: auto !important;
-"></span>
+            <span class="d-block d-lg-none  mx-0 px-0"><img src=""></span>
             <span class="d-none d-lg-block">
           <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="{{ $profile ? asset('ashraffarag_cv/storage/app/public/'.$profile->profile_image) : asset('img/profile.jpg') }}" alt="">
         </span>
@@ -82,9 +79,13 @@ License URL: https://creativecommons.org/licenses/by/4.0/
         <!--====================================================
                         ABOUT
     ======================================================-->
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
         <section class="resume-section p-3 p-lg-5 d-flex d-column" id="about">
             <div class="my-auto">
-                <img src="img/logo-s.png" class="img-fluid mb-3" alt="">
+                <img src="{{ asset('ashraffarag_cv/storage/app/public/' . $profile->logo) }}" alt="Logo"  style="
+    max-height: 50px !important;
+    width: auto !important;
+">
                 <h1 class="mb-0">{{ $profile ? $profile->first_name : 'اشرف' }}
                     <span class="text-primary">{{ $profile ? $profile->last_name : 'Bonsen' }}</span>
                 </h1>
@@ -458,36 +459,7 @@ License URL: https://creativecommons.org/licenses/by/4.0/
             </div>
         </section>
 
-         <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="awards">
-          <div class="row my-auto">
-              <div class="col-12">
-                <h2 class="  text-center">Awards</h2>
-                <div class="mb-5 heading-border"></div>
-              </div>
-              <div class="main-award" id="award-box">
-                  <div class="award">
-                      <div class="award-icon"></div>
-                      <div class="award-content">
-                          <span class="date">Apr 2017 - Mar 2018</span>
-                          <h5 class="title">Google Analytics Certified Developer</h5>
-                          <p class="description">
-                              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mattis felis vitae risus pulvinar tincidunt. Nam ac venenatis enim. Aenean hendrerit justo sed.
-                          </p>
-                      </div>
-                  </div>
-                  <div class="award">
-                      <div class="award-icon"></div>
-                      <div class="award-content">
-                          <span class="date">Apr 2018 - Mar 2019</span>
-                          <h5 class="title">Mobile Web Specialist - Google Certification</h5>
-                          <p class="description">
-                              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mattis felis vitae risus pulvinar tincidunt. Nam ac venenatis enim. Aenean hendrerit justo sed.
-                          </p>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </section>
+       
 
         <!--====================================================
                           CONTACT
