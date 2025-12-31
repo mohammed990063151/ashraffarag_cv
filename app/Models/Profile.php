@@ -23,5 +23,6 @@ class Profile extends Model
         'twitter_url',
         'linkedin_url',
         'github_url',
+        'logo'
     ];
 }

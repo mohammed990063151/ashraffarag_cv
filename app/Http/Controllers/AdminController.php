@@ -31,38 +31,79 @@ class AdminController extends Controller
         return view('admin.profile.edit', compact('profile'));
     }
 
-    public function profileUpdate(Request $request)
-    {
-        $validated = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'title' => 'required|string|max:255',
-            'bio' => 'required|string',
-            'address' => 'nullable|string|max:255',
-            'location' => 'nullable|string|max:255',
-            'phone' => 'nullable|string|max:20',
-            'email' => 'required|email',
-            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-            'facebook_url' => 'nullable|url',
-            'twitter_url' => 'nullable|url',
-            'linkedin_url' => 'nullable|url',
-            'github_url' => 'nullable|url',
-        ]);
+    // public function profileUpdate(Request $request)
+    // {
+    //     $validated = $request->validate([
+    //         'first_name' => 'required|string|max:255',
+    //         'last_name' => 'required|string|max:255',
+    //         'title' => 'required|string|max:255',
+    //         'bio' => 'required|string',
+    //         'address' => 'nullable|string|max:255',
+    //         'location' => 'nullable|string|max:255',
+    //         'phone' => 'nullable|string|max:20',
+    //         'email' => 'required|email',
+    //         'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+    //         'facebook_url' => 'nullable|url',
+    //         'twitter_url' => 'nullable|url',
+    //         'linkedin_url' => 'nullable|url',
+    //         'github_url' => 'nullable|url',
+    //     ]);
 
-        $profile = Profile::first();
+    //     $profile = Profile::first();
 
-        // Handle image upload
-        if ($request->hasFile('profile_image')) {
-            if ($profile->profile_image) {
-                Storage::disk('public')->delete($profile->profile_image);
-            }
-            $validated['profile_image'] = $request->file('profile_image')->store('profile', 'public');
+    //     // Handle image upload
+    //     if ($request->hasFile('profile_image')) {
+    //         if ($profile->profile_image) {
+    //             Storage::disk('public')->delete($profile->profile_image);
+    //         }
+    //         $validated['profile_image'] = $request->file('profile_image')->store('profile', 'public');
+    //     }
+
+    //     $profile->update($validated);
+
+    //     return redirect()->route('admin.profile.edit')->with('success', 'تم تحديث البيانات الشخصية بنجاح');
+    // }
+public function profileUpdate(Request $request)
+{
+    $validated = $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'title' => 'required|string|max:255',
+        'bio' => 'required|string',
+        'address' => 'nullable|string|max:255',
+        'location' => 'nullable|string|max:255',
+        'phone' => 'nullable|string|max:20',
+        'email' => 'required|email',
+        'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+        'logo' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+        'facebook_url' => 'nullable|url',
+        'twitter_url' => 'nullable|url',
+        'linkedin_url' => 'nullable|url',
+        'github_url' => 'nullable|url',
+    ]);
+
+    $profile = Profile::first();
+
+    // Handle profile image upload
+    if ($request->hasFile('profile_image')) {
+        if ($profile->profile_image) {
+            Storage::disk('public')->delete($profile->profile_image);
         }
-
-        $profile->update($validated);
-
-        return redirect()->route('admin.profile.edit')->with('success', 'تم تحديث البيانات الشخصية بنجاح');
+        $validated['profile_image'] = $request->file('profile_image')->store('profile', 'public');
     }
+
+    // Handle logo upload
+    if ($request->hasFile('logo')) {
+        if ($profile->logo) {
+            Storage::disk('public')->delete($profile->logo);
+        }
+        $validated['logo'] = $request->file('logo')->store('logos', 'public');
+    }
+
+    $profile->update($validated);
+
+    return redirect()->route('admin.profile.edit')->with('success', 'تم تحديث البيانات الشخصية بنجاح');
+}
 
     // ===== EXPERIENCES =====
     public function experienceIndex()

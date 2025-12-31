@@ -135,6 +135,21 @@
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
+                    <div class="mb-3">
+    <label for="logo" class="form-label">الشعار (Logo)</label>
+    <input type="file" class="form-control @error('logo') is-invalid @enderror"
+           id="logo" name="logo" accept="image/*">
+    @if($profile->logo)
+        <small class="d-block mt-2">
+            الشعار الحالي:
+            <img src="{{ asset('storage/' . $profile->logo) }}" style="max-width: 120px; border-radius: 5px;">
+        </small>
+    @endif
+    @error('logo')
+        <small class="text-danger">{{ $message }}</small>
+    @enderror
+</div>
+
 
                     <div class="mb-3">
                         <label for="twitter_url" class="form-label">رابط Twitter</label>
