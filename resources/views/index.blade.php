@@ -82,10 +82,10 @@ License URL: https://creativecommons.org/licenses/by/4.0/
    
         <section class="resume-section p-3 p-lg-5 d-flex d-column" id="about">
             <div class="my-auto">
-                <img src="{{ asset('ashraffarag_cv/storage/app/public/' . $profile->logo) }}" alt="Logo"  style="
+                {{-- <img src="{{ asset('ashraffarag_cv/storage/app/public/' . $profile->logo) }}" alt="Logo"  style="
     max-height: 50px !important;
     width: auto !important;
-">
+"> --}}
 
  <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
                 <h1 class="mb-0">{{ $profile ? $profile->first_name : 'اشرف' }}
