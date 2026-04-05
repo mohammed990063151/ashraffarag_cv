@@ -8,8 +8,9 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you may specify the default filesystem disk that should be used
-    | by the framework. The "local" disk, as well as a variety of cloud
-    | based disks are available to your application. Just store away!
+    | by the application. The "local" disk, as well as a variety of cloud
+    | based disks are available to you. Most likely, this is the disk you
+    | will use for local file storage.
     |
     */
 
@@ -21,8 +22,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you may configure as many filesystem "disks" as you wish, and you
-    | may even configure multiple disks of the same driver. Defaults have
-    | been set up for each driver as an example of the required values.
+    | may even configure multiple disks for the same driver. Examples for
+    | most supported storage drivers are configured here for reference.
     |
     | Supported Drivers: "local", "ftp", "sftp", "s3"
     |
@@ -36,21 +37,18 @@ return [
             'throw' => false,
         ],
 
-        // 'public' => [
-        //     'driver' => 'local',
-        //     'root' => storage_path('app/public'),
-        //     'url' => env('APP_URL').'/storage',
-        //     'visibility' => 'public',
-        //     'throw' => false,
-        // ],
-      'public' => [
-    'driver' => 'local',
-    'root' => public_path('storage'),
-    'url' => env('APP_URL').'/storage',
-    'visibility' => 'public',
-],
-
-
+        /*
+         * الملفات العامة (صور البروفايل، البورتفوليو، الشعار):
+         * تُكتب مباشرة تحت: storage/app/public/ (مثل profile/, portfolio/, logos/)
+         * ويُعرَض عبر الرابط: /storage/...  بعد php artisan storage:link
+         */
+        'public' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
 
         's3' => [
             'driver' => 's3',
