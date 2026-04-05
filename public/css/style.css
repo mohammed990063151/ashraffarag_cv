@@ -774,3 +774,38 @@ a:active {
     width:100%;
     position:absolute;
 }
+
+/* Extra responsive tweaks (portfolio / CV template) */
+html {
+    overflow-x: hidden;
+}
+body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+}
+@media (max-width: 991px) {
+    h1 { font-size: clamp(2.25rem, 7vw, 3.75rem); line-height: 1.1; }
+    h2 { font-size: clamp(1.75rem, 5vw, 2.75rem); }
+    .port-head-cont { text-align: center; }
+    .port-head-cont .filter-b { margin: 0.25rem; }
+    section.resume-section {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+    }
+}
+@media (max-width: 767px) {
+    #contact .contact-cont h3 { font-size: 2rem; }
+    #contact .contact-cont p {
+        padding-right: 0;
+        padding-left: 0;
+    }
+    .skill-cover .skill-item { margin-bottom: 1.5rem; }
+}
+@media (max-width: 575px) {
+    .portfolio-item { margin-bottom: 1rem; }
+    #contact {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+}

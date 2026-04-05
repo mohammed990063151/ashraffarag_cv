@@ -128,7 +128,7 @@
                         <label for="profile_image" class="form-label">صورة البروفايل</label>
                         <input type="file" class="form-control @error('profile_image') is-invalid @enderror"
                                id="profile_image" name="profile_image" accept="image/*">
-                        @if($profile->profile_image)
+                        @if($profile && $profile->profile_image)
                             <small class="d-block mt-2">الصورة الحالية: <img src="{{ asset('storage/' . $profile->profile_image) }}" style="max-width: 100px; border-radius: 5px;"></small>
                         @endif
                         @error('profile_image')
@@ -139,7 +139,7 @@
     <label for="logo" class="form-label">الشعار (Logo)</label>
     <input type="file" class="form-control @error('logo') is-invalid @enderror"
            id="logo" name="logo" accept="image/*">
-    @if($profile->logo)
+    @if($profile && $profile->logo)
         <small class="d-block mt-2">
             الشعار الحالي:
             <img src="{{ asset('storage/' . $profile->logo) }}" style="max-width: 120px; border-radius: 5px;">
@@ -151,13 +151,27 @@
 </div>
 
 
-                    <div class="mb-3">
-                        <label for="twitter_url" class="form-label">رابط Twitter</label>
-                        <input type="url" class="form-control @error('twitter_url') is-invalid @enderror"
-                               id="twitter_url" name="twitter_url" value="{{ old('twitter_url', $profile->twitter_url ?? '') }}">
-                        @error('twitter_url')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="facebook_url" class="form-label">رابط Facebook</label>
+                                <input type="url" class="form-control @error('facebook_url') is-invalid @enderror"
+                                       id="facebook_url" name="facebook_url" value="{{ old('facebook_url', $profile->facebook_url ?? '') }}">
+                                @error('facebook_url')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="twitter_url" class="form-label">رابط Twitter</label>
+                                <input type="url" class="form-control @error('twitter_url') is-invalid @enderror"
+                                       id="twitter_url" name="twitter_url" value="{{ old('twitter_url', $profile->twitter_url ?? '') }}">
+                                @error('twitter_url')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
 
                     <div class="d-flex gap-2">

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Profile;
-use App\Models\Experience;
-use App\Models\Skill;
-use App\Models\Portfolio;
 use App\Models\Award;
+use App\Models\ContactMessage;
+use App\Models\Experience;
+use App\Models\Portfolio;
+use App\Models\Profile;
+use App\Models\Skill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,101 +21,77 @@ class AdminController extends Controller
         $skillsCount = Skill::count();
         $portfoliosCount = Portfolio::count();
         $awardsCount = Award::count();
+        $contactMessagesCount = ContactMessage::count();
+        $skills = Skill::orderBy('order')->get();
 
-        return view('admin.dashboard', compact('profile', 'experiencesCount', 'skillsCount', 'portfoliosCount', 'awardsCount'));
+        return view('admin.dashboard', compact('profile', 'experiencesCount', 'skillsCount', 'portfoliosCount', 'awardsCount', 'contactMessagesCount', 'skills'));
     }
 
     // ===== PROFILE =====
     public function profileEdit()
     {
         $profile = Profile::first();
+
         return view('admin.profile.edit', compact('profile'));
     }
 
-    // public function profileUpdate(Request $request)
-    // {
-    //     $validated = $request->validate([
-    //         'first_name' => 'required|string|max:255',
-    //         'last_name' => 'required|string|max:255',
-    //         'title' => 'required|string|max:255',
-    //         'bio' => 'required|string',
-    //         'address' => 'nullable|string|max:255',
-    //         'location' => 'nullable|string|max:255',
-    //         'phone' => 'nullable|string|max:20',
-    //         'email' => 'required|email',
-    //         'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-    //         'facebook_url' => 'nullable|url',
-    //         'twitter_url' => 'nullable|url',
-    //         'linkedin_url' => 'nullable|url',
-    //         'github_url' => 'nullable|url',
-    //     ]);
+    public function profileUpdate(Request $request)
+    {
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
+            'bio' => 'required|string',
+            'address' => 'nullable|string|max:255',
+            'location' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'email' => 'required|email',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+            'facebook_url' => 'nullable|url',
+            'twitter_url' => 'nullable|url',
+            'linkedin_url' => 'nullable|url',
+            'github_url' => 'nullable|url',
+        ]);
 
-    //     $profile = Profile::first();
+        $profile = Profile::first();
 
-    //     // Handle image upload
-    //     if ($request->hasFile('profile_image')) {
-    //         if ($profile->profile_image) {
-    //             Storage::disk('public')->delete($profile->profile_image);
-    //         }
-    //         $validated['profile_image'] = $request->file('profile_image')->store('profile', 'public');
-    //     }
-
-    //     $profile->update($validated);
-
-    //     return redirect()->route('admin.profile.edit')->with('success', 'تم تحديث البيانات الشخصية بنجاح');
-    // }
-public function profileUpdate(Request $request)
-{
-    $validated = $request->validate([
-        'first_name' => 'required|string|max:255',
-        'last_name' => 'required|string|max:255',
-        'title' => 'required|string|max:255',
-        'bio' => 'required|string',
-        'address' => 'nullable|string|max:255',
-        'location' => 'nullable|string|max:255',
-        'phone' => 'nullable|string|max:20',
-        'email' => 'required|email',
-        'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-        'logo' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
-        'facebook_url' => 'nullable|url',
-        'twitter_url' => 'nullable|url',
-        'linkedin_url' => 'nullable|url',
-        'github_url' => 'nullable|url',
-    ]);
-
-    $profile = Profile::first();
-
-    // Handle profile image upload
-    if ($request->hasFile('profile_image')) {
-        if ($profile->profile_image) {
-            Storage::disk('public')->delete($profile->profile_image);
+        if ($request->hasFile('profile_image')) {
+            if ($profile?->profile_image) {
+                Storage::disk('public')->delete($profile->profile_image);
+            }
+            $validated['profile_image'] = $request->file('profile_image')->store('profile', 'public');
         }
-        $validated['profile_image'] = $request->file('profile_image')->store('profile', 'public');
-    }
 
-    // Handle logo upload
-    if ($request->hasFile('logo')) {
-        if ($profile->logo) {
-            Storage::disk('public')->delete($profile->logo);
+        if ($request->hasFile('logo')) {
+            if ($profile?->logo) {
+                Storage::disk('public')->delete($profile->logo);
+            }
+            $validated['logo'] = $request->file('logo')->store('logos', 'public');
         }
-        $validated['logo'] = $request->file('logo')->store('logos', 'public');
+
+        if ($profile) {
+            $profile->update($validated);
+        } else {
+            Profile::create($validated);
+        }
+
+        return redirect()->route('admin.profile.edit')->with('success', 'تم تحديث البيانات الشخصية بنجاح');
     }
-
-    $profile->update($validated);
-
-    return redirect()->route('admin.profile.edit')->with('success', 'تم تحديث البيانات الشخصية بنجاح');
-}
 
     // ===== EXPERIENCES =====
     public function experienceIndex()
     {
         $experiences = Experience::orderBy('order')->get();
+
         return view('admin.experience.index', compact('experiences'));
     }
 
     public function experienceCreate()
     {
-        return view('admin.experience.create');
+        $nextOrder = (Experience::max('order') ?? 0) + 1;
+
+        return view('admin.experience.create', compact('nextOrder'));
     }
 
     public function experienceStore(Request $request)
@@ -169,6 +146,7 @@ public function profileUpdate(Request $request)
     public function experienceDestroy(Experience $experience)
     {
         $experience->delete();
+
         return redirect()->route('admin.experience.index')->with('success', 'تم حذف الخبرة بنجاح');
     }
 
@@ -176,6 +154,7 @@ public function profileUpdate(Request $request)
     public function skillIndex()
     {
         $skills = Skill::orderBy('order')->get();
+
         return view('admin.skill.index', compact('skills'));
     }
 
@@ -220,6 +199,7 @@ public function profileUpdate(Request $request)
     public function skillDestroy(Skill $skill)
     {
         $skill->delete();
+
         return redirect()->route('admin.skill.index')->with('success', 'تم حذف المهارة بنجاح');
     }
 
@@ -227,6 +207,7 @@ public function profileUpdate(Request $request)
     public function portfolioIndex()
     {
         $portfolios = Portfolio::orderBy('order')->get();
+
         return view('admin.portfolio.index', compact('portfolios'));
     }
 
@@ -289,7 +270,11 @@ public function profileUpdate(Request $request)
 
     public function portfolioDestroy(Portfolio $portfolio)
     {
+        if ($portfolio->image) {
+            Storage::disk('public')->delete($portfolio->image);
+        }
         $portfolio->delete();
+
         return redirect()->route('admin.portfolio.index')->with('success', 'تم حذف المشروع بنجاح');
     }
 
@@ -297,6 +282,7 @@ public function profileUpdate(Request $request)
     public function awardIndex()
     {
         $awards = Award::orderBy('order')->get();
+
         return view('admin.award.index', compact('awards'));
     }
 
@@ -343,6 +329,21 @@ public function profileUpdate(Request $request)
     public function awardDestroy(Award $award)
     {
         $award->delete();
+
         return redirect()->route('admin.award.index')->with('success', 'تم حذف الجائزة بنجاح');
+    }
+
+    public function contactIndex()
+    {
+        $messages = ContactMessage::query()->orderByDesc('created_at')->paginate(15);
+
+        return view('admin.contact.index', compact('messages'));
+    }
+
+    public function contactDestroy(ContactMessage $contactMessage)
+    {
+        $contactMessage->delete();
+
+        return redirect()->route('admin.contact.index')->with('success', 'تم حذف الرسالة');
     }
 }

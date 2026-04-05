@@ -14,25 +14,132 @@ License URL: https://creativecommons.org/licenses/by/4.0/
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link rel="shortcut icon" href="{{ asset('../img/favicon.ico') }}">
-    <title>{{ $profile->first_name ?? 'Profile' }} - profile</title>
+    @php
+        $profilePhoto = ($profile && $profile->profile_image) ? asset('storage/'.$profile->profile_image) : null;
+    @endphp
+    <title>{{ $profile ? $profile->first_name.' '.$profile->last_name : 'Portfolio' }}</title>
 
     <!-- Global stylesheets -->
-    <link href="{{ asset('../css/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
-    <link href="{{ asset('../font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('../css/devicons/css/devicons.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('../css/simple-line-icons/css/simple-line-icons.css') }}" rel="stylesheet">
-    <link href="{{ asset('../css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link href="{{ asset('css/devicons/css/devicons.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/simple-line-icons/css/simple-line-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <style>
+    /* منع التمرير الأفقي وقصّ المحتوى على الهاتف */
+    html { overflow-x: hidden; -webkit-text-size-adjust: 100%; }
+    body { overflow-x: hidden; width: 100%; max-width: 100vw; position: relative; }
+    .site-main-wrap { max-width: 100%; }
+
     #about {
-    background-image: url("{{ $profile ? asset('ashraffarag_cv/storage/app/public/'.$profile->profile_image) : asset('img/profile.jpg') }}");
+    @if($profilePhoto)
+    background-image: url("{{ $profilePhoto }}");
+    @else
+    background: linear-gradient(135deg, #1a252f 0%, #0d47a1 100%);
+    @endif
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-}
+    min-height: 100vh;
+    }
+    /* شريط التنقل — الجوال */
+    @media (max-width: 991.98px) {
+        #sideNav.navbar {
+            padding: 0.6rem max(0.75rem, env(safe-area-inset-left)) 0.6rem max(0.75rem, env(safe-area-inset-right));
+            flex-wrap: wrap;
+            align-items: center;
+            box-shadow: 0 4px 24px rgba(0,0,0,.18);
+            z-index: 1030;
+        }
+        #sideNav .navbar-brand {
+            flex: 1 1 auto;
+            min-width: 0;
+            margin-right: 0.75rem;
+            padding: 0.25rem 0;
+        }
+        #sideNav .mobile-nav-avatar {
+            width: 42px;
+            height: 42px;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,.35);
+            flex-shrink: 0;
+        }
+        #sideNav .mobile-nav-title {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            max-width: calc(100vw - 140px);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #sideNav .navbar-toggler {
+            flex-shrink: 0;
+            border: 2px solid rgba(255,255,255,.55);
+            border-radius: 10px;
+            padding: 0.4rem 0.55rem;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        #sideNav .navbar-toggler:hover,
+        #sideNav .navbar-toggler:focus {
+            background: rgba(255,255,255,.12);
+            outline: none;
+        }
+        #sideNav .navbar-toggler-icon {
+            width: 1.35em;
+            height: 1.35em;
+        }
+        #sideNav .navbar-collapse {
+            flex-basis: 100%;
+            width: 100%;
+            margin-top: 0.65rem;
+        }
+        #sideNav .navbar-collapse .navbar-nav {
+            width: 100%;
+            padding: 0.35rem 0;
+            background: rgba(0,0,0,.18);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,.14);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+            overflow: hidden;
+        }
+        #sideNav .navbar-nav .nav-item .nav-link {
+            padding: 0.95rem 1.15rem !important;
+            border-bottom: 1px solid rgba(255,255,255,.1);
+            font-size: 0.95rem;
+            letter-spacing: 0.06em;
+            transition: background 0.15s ease;
+        }
+        #sideNav .navbar-nav .nav-item:last-child .nav-link {
+            border-bottom: none;
+        }
+        #sideNav .navbar-nav .nav-link:hover,
+        #sideNav .navbar-nav .nav-link:focus {
+            background: rgba(255,255,255,.1);
+            color: #fff !important;
+        }
+    }
+    /* Responsive typography & layout */
+    @media (max-width: 991px) {
+        h1 { font-size: clamp(2rem, 7vw, 3.25rem) !important; line-height: 1.15 !important; }
+        h2 { font-size: clamp(1.6rem, 5.5vw, 2.35rem) !important; }
+        h3 { font-size: clamp(1.25rem, 4vw, 1.85rem) !important; }
+        .subheading { font-size: 1.05rem !important; word-wrap: break-word; }
+        .resume-section { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+        #contact .contact-cont h3 { font-size: clamp(1.6rem, 5vw, 2.25rem) !important; }
+    }
+    @media (max-width: 575px) {
+        .con-form input { margin-top: 1rem !important; }
+        .con-form textarea { margin: 1rem 0 !important; height: 160px !important; }
+    }
+    .contact-form-card { background: rgba(255,255,255,.06); border-radius: 12px; padding: 1.25rem; }
+    #maps .map-responsive { padding-bottom: min(56%, 420px); }
+    #contact .contact-cont p,
+    #contact .contact-box-desc p { word-wrap: break-word; overflow-wrap: anywhere; }
     </style>
 
     
@@ -41,13 +148,16 @@ License URL: https://creativecommons.org/licenses/by/4.0/
 <body id="page-top">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">
-            <span class="d-block d-lg-none  mx-0 px-0"><img src=""></span>
-            <span class="d-none d-lg-block">
-          <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="{{ $profile ? asset('ashraffarag_cv/storage/app/public/'.$profile->profile_image) : asset('img/profile.jpg') }}" alt="">
-        </span>
+        <a class="navbar-brand js-scroll-trigger d-flex d-lg-block align-items-center" href="#page-top">
+            <span class="d-flex d-lg-none align-items-center">
+                <img class="rounded-circle mobile-nav-avatar" src="{{ $profilePhoto ?? 'https://ui-avatars.com/api/?name=' . urlencode($profile ? trim($profile->first_name.' '.$profile->last_name) : 'Portfolio') . '&size=256&background=2196f3&color=fff' }}" alt="">
+                <span class="mobile-nav-title text-white ml-2">{{ $profile ? $profile->first_name : 'Portfolio' }}</span>
+            </span>
+            <span class="d-none d-lg-flex flex-column w-100 align-items-center">
+                <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="{{ $profilePhoto ?? 'https://ui-avatars.com/api/?name=' . urlencode($profile ? trim($profile->first_name.' '.$profile->last_name) : 'Portfolio') . '&size=256&background=2196f3&color=fff' }}" alt="">
+            </span>
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="فتح القائمة">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -74,7 +184,7 @@ License URL: https://creativecommons.org/licenses/by/4.0/
         </div>
     </nav>
 
-    <div class="container-fluid p-0">
+    <div class="container-fluid px-3 px-sm-4 px-lg-5 site-main-wrap">
 
         <!--====================================================
                         ABOUT
@@ -87,7 +197,7 @@ License URL: https://creativecommons.org/licenses/by/4.0/
     width: auto !important;
 "> --}}
 
- <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+                <div class="pt-5 mt-lg-4"></div>
                 <h1 class="mb-0">{{ $profile ? $profile->first_name : 'اشرف' }}
                     <span class="text-primary">{{ $profile ? $profile->last_name : 'Bonsen' }}</span>
                 </h1>
@@ -235,11 +345,11 @@ License URL: https://creativecommons.org/licenses/by/4.0/
               <div class="resume-item col-md-6 col-sm-12 " >
                 <div class="card mx-0 p-4 mb-5" style="border-color: {{ $experience->color }}; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.21);">
                   <div class=" resume-content mr-auto">
-                      <h4 class="mb-3"><i class="fa {{ $experience->icon }} mr-3" style="color: {{ $experience->color }};"></i> {{ $experience->title }}</h4>
+                      <h4 class="mb-3"><i class="{{ $experience->icon }} mr-3" style="color: {{ $experience->color }};"></i> {{ $experience->title }}</h4>
                       <p>{{ $experience->description }}</p>
                   </div>
                   <div class="resume-date text-md-right">
-                      <span class="text-primary">{{ $experience->start_date->format('F Y') }} - {{ $experience->is_current ? 'Present' : $experience->end_date->format('F Y') }}</span>
+                      <span class="text-primary">{{ $experience->start_date->format('F Y') }} — {{ $experience->is_current ? 'Present' : ($experience->end_date ? $experience->end_date->format('F Y') : '—') }}</span>
                   </div>
                 </div>
               </div>
@@ -382,54 +492,27 @@ License URL: https://creativecommons.org/licenses/by/4.0/
         <!--====================================================
                         SKILLS
     ======================================================-->
-        {{-- <section class=" d-flex flex-column" id="skills">
+        <section class="d-flex flex-column" id="skills">
             <div class="p-lg-5 p-3 skill-cover">
-                <h3 class="text-center text-white">Coding Skills</h3>
-                <div class="row text-center my-auto ">
-                    {{-- <div class="col-md-3 col-sm-6">
-                        <div class="skill-item">
-                            <i class="fa fa-html5 fa-5x"></i>
-                            <h2><span class="counter"> 84 </span><span>%</span></h2>
-                            <p>HTML5</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="skill-item">
-                            <i class="fa fa-css3 fa-5x"></i>
-                            <h2><span class="counter"> 95 </span><span>%</span></h2>
-                            <p>CSS3</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="skill-item">
-                            <i class="fa fa-code fa-5x"></i>
-                            <h2><span class="counter"> 65 </span><span>%</span></h2>
-                            <p>JQuery</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="skill-item">
-                            <i class="fa fa-globe fa-5x"></i>
-                            <h2><span class="counter"> 89 </span><span>%</span></h2>
-                            <p>PHP</p>
-                        </div>
-                    </div> --}
+                <h3 class="text-center text-white mb-2">Skills</h3>
+                <p class="text-center small mb-4" style="color: rgba(255,255,255,.75)">Core competencies and tools</p>
+                <div class="row text-center my-auto justify-content-center">
                      @forelse($skills as $skill)
-              <div class="col-md-3 col-sm-6">
+              <div class="col-md-3 col-sm-6 mb-4">
                   <div class="skill-item">
-                      <i class="fa {{ $skill->icon }} fa-5x"></i>
-                      <h2><span class="counter"> {{ $skill->percentage }} </span><span>%</span></h2>
+                      <i class="{{ $skill->icon ?: 'fa fa-code' }}" style="font-size: 3.5rem;" aria-hidden="true"></i>
+                      <h2><span class="counter">{{ $skill->percentage }}</span><span>%</span></h2>
                       <p>{{ $skill->name }}</p>
                   </div>
               </div>
               @empty
               <div class="col-12">
-                <p class="text-center text-muted text-white">لا توجد مهارات مضافة حتى الآن</p>
+                <p class="text-center" style="color: rgba(255,255,255,.75)">لا توجد مهارات مضافة حتى الآن</p>
               </div>
               @endforelse
                 </div>
             </div>
-        </section> --}}
+        </section>
 
 
         <!--====================================================
@@ -466,30 +549,50 @@ License URL: https://creativecommons.org/licenses/by/4.0/
         <!--====================================================
                           CONTACT
     ======================================================-->
-        <section class="resume-section p-3 p-lg-5 d-flex flex-column">
-            <div class="row my-auto" id="contact">
-                <div class="col-md-8">
+        <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="contact">
+            <div class="row my-auto">
+                <div class="col-lg-8 col-md-12 order-lg-1 order-2">
                     <div class="contact-cont">
-                        <h3>CONTACT Us</h3>
+                        <h3>Contact</h3>
                         <div class="heading-border-light"></div>
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed
-                            to using Content here.</p>
+                        <p class="mb-4">أرسل رسالة وسأرد عليك في أقرب وقت ممكن.</p>
                     </div>
-                    <div class="row con-form">
-                        <div class="col-md-12">
-                            <input type="text" name="full-name" placeholder="Full Name" class="form-control">
+                    @if(session('contact_success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('contact_success') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         </div>
-                        <div class="col-md-12">
-                            <input type="text" name="email" placeholder="Email Id" class="form-control">
+                    @endif
+                    <form class="contact-form-card" action="{{ route('contact.store') }}" method="POST" novalidate>
+                        @csrf
+                        <div class="row con-form">
+                            <div class="col-md-12">
+                                <label class="sr-only" for="contact-name">الاسم</label>
+                                <input type="text" id="contact-name" name="name" value="{{ old('name') }}" placeholder="الاسم الكامل" class="form-control @error('name') is-invalid @enderror" required>
+                                @error('name')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="col-md-12">
+                                <label class="sr-only" for="contact-email">البريد</label>
+                                <input type="email" id="contact-email" name="email" value="{{ old('email') }}" placeholder="البريد الإلكتروني" class="form-control @error('email') is-invalid @enderror" required>
+                                @error('email')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="col-md-12">
+                                <label class="sr-only" for="contact-subject">الموضوع</label>
+                                <input type="text" id="contact-subject" name="subject" value="{{ old('subject') }}" placeholder="الموضوع (اختياري)" class="form-control @error('subject') is-invalid @enderror">
+                                @error('subject')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="col-md-12">
+                                <label class="sr-only" for="contact-message">الرسالة</label>
+                                <textarea id="contact-message" name="message" rows="6" placeholder="رسالتك..." class="form-control @error('message') is-invalid @enderror" required>{{ old('message') }}</textarea>
+                                @error('message')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="col-md-12 sub-but">
+                                <button type="submit" class="btn btn-general btn-white btn-block">إرسال</button>
+                            </div>
                         </div>
-                        <div class="col-md-12">
-                            <input type="text" name="subject" placeholder="Subject" class="form-control">
-                        </div>
-                        <div class="col-md-12"><textarea name="" id=""></textarea></div>
-                        <div class="col-md-12 sub-but"><button class="btn btn-general btn-white" role="button">Send</button></div>
-                    </div>
+                    </form>
                 </div>
-                <div class="col-md-4 col-sm-12 mt-5">
+                <div class="col-lg-4 col-md-12 mt-4 mt-lg-0 order-lg-2 order-1">
                     <div class="contact-cont2">
                         <div class="contact-add contact-box-desc">
                             <h3><i class="fa fa-map-marker cl-atlantis fa-2x"></i> Address</h3>
@@ -1069,14 +1172,20 @@ License URL: https://creativecommons.org/licenses/by/4.0/
 
 
     <!-- Global javascript -->
-    <script src="{{ asset('../js/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('../js/bootstrap/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('../js/jquery-easing/jquery.easing.min.js') }}"></script>
-    <script src="{{ asset('../js/counter/jquery.waypoints.min.js') }}"></script>
-    <script src="{{ asset('../js/counter/jquery.counterup.min.js') }}"></script>
-    <script src="{{ asset('../js/custom.js') }}"></script>
+    <script src="{{ asset('js/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script src="{{ asset('js/counter/jquery.waypoints.min.js') }}"></script>
+    <script src="{{ asset('js/counter/jquery.counterup.min.js') }}"></script>
+    <script src="{{ asset('js/custom.js') }}"></script>
     <script>
         $(document).ready(function() {
+            /* إغلاق قائمة الجوال بعد اختيار قسم */
+            $('#navbarSupportedContent .nav-link').on('click', function () {
+                if ($(window).width() < 992) {
+                    $('#navbarSupportedContent').collapse('hide');
+                }
+            });
 
             $(".filter-b").click(function() {
                 var value = $(this).attr('data-filter');

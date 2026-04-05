@@ -1,10 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PortfolioController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', [PortfolioController::class, 'index']);
+Route::get('/', [PortfolioController::class, 'index'])->name('portfolio.index');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 // ===== Admin Routes =====
 Route::prefix('admin')->group(function () {
@@ -46,5 +48,8 @@ Route::prefix('admin')->group(function () {
     Route::get('/award/{award}/edit', [AdminController::class, 'awardEdit'])->name('admin.award.edit');
     Route::put('/award/{award}', [AdminController::class, 'awardUpdate'])->name('admin.award.update');
     Route::delete('/award/{award}', [AdminController::class, 'awardDestroy'])->name('admin.award.destroy');
-});
 
+    // Contact messages
+    Route::get('/contact-messages', [AdminController::class, 'contactIndex'])->name('admin.contact.index');
+    Route::delete('/contact-messages/{contactMessage}', [AdminController::class, 'contactDestroy'])->name('admin.contact.destroy');
+});

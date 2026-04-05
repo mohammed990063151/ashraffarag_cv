@@ -57,6 +57,52 @@
             </div>
         </div>
     </div>
+
+    <div class="col-md-6 col-lg-3 mb-4">
+        <a href="{{ route('admin.contact.index') }}" class="text-decoration-none text-reset">
+            <div class="card border-left-secondary shadow h-100 py-2 dashboard-stat-link">
+                <div class="card-body">
+                    <div class="text-secondary text-uppercase mb-1 small font-weight-bold">رسائل التواصل</div>
+                    <div class="h3 mb-0"><i class="fa fa-envelope text-secondary"></i> {{ $contactMessagesCount }}</div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-12 mb-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <h5 class="mb-0"><i class="fa fa-star text-warning"></i> المهارات</h5>
+                <a href="{{ route('admin.skill.index') }}" class="btn btn-sm btn-outline-primary">إدارة المهارات</a>
+            </div>
+            <div class="card-body">
+                @if($skills->isEmpty())
+                    <p class="text-muted mb-0">لا توجد مهارات بعد. <a href="{{ route('admin.skill.create') }}">أضف مهارة</a></p>
+                @else
+                    <div class="row g-3">
+                        @foreach($skills as $skill)
+                            <div class="col-md-6 col-xl-4">
+                                <div class="d-flex align-items-center p-3 rounded border bg-light h-100">
+                                    <div class="flex-shrink-0 me-3 text-primary" style="font-size: 1.5rem;">
+                                        <i class="fa fa-check-circle"></i>
+                                    </div>
+                                    <div class="flex-grow-1 min-w-0">
+                                        <div class="fw-semibold text-truncate">{{ $skill->name }}</div>
+                                        <div class="progress mt-2" style="height: 8px;">
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width: {{ $skill->percentage }}%" aria-valuenow="{{ $skill->percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small class="text-muted">{{ $skill->percentage }}%</small>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="row mt-4">
@@ -88,8 +134,13 @@
                         </a>
                     </div>
                     <div class="col-md-6">
-                        <a href="{{ route('admin.award.create') }}" class="btn btn-secondary w-100">
+                        <a href="{{ route('admin.award.create') }}" class="btn btn-secondary w-100 mb-2">
                             <i class="fa fa-plus"></i> إضافة جائزة جديدة
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{{ route('admin.contact.index') }}" class="btn btn-outline-secondary w-100">
+                            <i class="fa fa-envelope"></i> عرض رسائل التواصل
                         </a>
                     </div>
                 </div>
@@ -110,6 +161,16 @@
     }
     .border-left-warning {
         border-left: 0.25rem solid #f39c12 !important;
+    }
+    .border-left-secondary {
+        border-left: 0.25rem solid #6c757d !important;
+    }
+    .dashboard-stat-link .card {
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .dashboard-stat-link:hover .card {
+        transform: translateY(-2px);
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.12) !important;
     }
     .card-body .text-primary {
         color: #3498db !important;

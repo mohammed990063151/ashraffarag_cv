@@ -19,10 +19,11 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .sidebar {
-            background-color: #2c3e50;
+            background: linear-gradient(180deg, #1e2a38 0%, #2c3e50 45%, #243342 100%);
             min-height: 100vh;
             padding-top: 20px;
             color: white;
+            box-shadow: 4px 0 24px rgba(0,0,0,0.12);
         }
         .sidebar a {
             color: #ecf0f1;
@@ -54,9 +55,11 @@
             padding: 30px;
         }
         .card {
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
             border: none;
+            border-radius: 12px;
             margin-bottom: 20px;
+            overflow: hidden;
         }
         .btn-primary {
             background-color: #3498db;
@@ -110,6 +113,10 @@
 
                 <a href="{{ route('admin.award.index') }}" class="@if(Route::currentRouteName() == 'admin.award.index' || Route::currentRouteName() == 'admin.award.create' || Route::currentRouteName() == 'admin.award.edit') active @endif">
                     <i class="fa fa-trophy"></i> الجوائز
+                </a>
+
+                <a href="{{ route('admin.contact.index') }}" class="@if(Route::currentRouteName() == 'admin.contact.index') active @endif">
+                    <i class="fa fa-envelope"></i> رسائل التواصل
                 </a>
 
                 <h5 class="mt-4">أخرى</h5>

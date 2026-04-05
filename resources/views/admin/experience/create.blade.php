@@ -96,6 +96,16 @@
                         </div>
                     </div>
 
+                    <div class="mb-3">
+                        <label for="order" class="form-label">ترتيب العرض</label>
+                        <input type="number" class="form-control @error('order') is-invalid @enderror"
+                               id="order" name="order" value="{{ old('order', $nextOrder) }}" min="0" step="1">
+                        <small class="text-muted">رقم أصغر يظهر أولاً في الموقع</small>
+                        @error('order')
+                            <small class="text-danger d-block">{{ $message }}</small>
+                        @enderror
+                    </div>
+
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-save"></i> حفظ
