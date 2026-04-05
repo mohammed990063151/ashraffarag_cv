@@ -60,14 +60,14 @@ class AdminController extends Controller
             if ($profile?->profile_image) {
                 Storage::disk('public')->delete($profile->profile_image);
             }
-            $validated['profile_image'] = $request->file('profile_image')->store('profile', 'public');
+            $validated['profile_image'] = $request->file('profile_image')->store(config('media.profile_directory'), 'public');
         }
 
         if ($request->hasFile('logo')) {
             if ($profile?->logo) {
                 Storage::disk('public')->delete($profile->logo);
             }
-            $validated['logo'] = $request->file('logo')->store('logos', 'public');
+            $validated['logo'] = $request->file('logo')->store(config('media.logo_directory'), 'public');
         }
 
         if ($profile) {
@@ -230,7 +230,7 @@ class AdminController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('portfolio', 'public');
+            $validated['image'] = $request->file('image')->store(config('media.portfolio_directory'), 'public');
         }
 
         Portfolio::create($validated);
@@ -260,7 +260,7 @@ class AdminController extends Controller
             if ($portfolio->image) {
                 Storage::disk('public')->delete($portfolio->image);
             }
-            $validated['image'] = $request->file('image')->store('portfolio', 'public');
+            $validated['image'] = $request->file('image')->store(config('media.portfolio_directory'), 'public');
         }
 
         $portfolio->update($validated);

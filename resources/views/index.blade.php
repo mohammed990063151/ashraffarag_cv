@@ -345,8 +345,11 @@ License URL: https://creativecommons.org/licenses/by/4.0/
               <div class="resume-item col-md-6 col-sm-12 " >
                 <div class="card mx-0 p-4 mb-5" style="border-color: {{ $experience->color }}; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.21);">
                   <div class=" resume-content mr-auto">
-                      <h4 class="mb-3"><i class="{{ $experience->icon }} mr-3" style="color: {{ $experience->color }};"></i> {{ $experience->title }}</h4>
-                      <p>{{ $experience->description }}</p>
+                      <h4 class="mb-2"><i class="{{ $experience->icon }} mr-3" style="color: {{ $experience->color }};"></i> {{ $experience->title }}</h4>
+                      @if($experience->company)
+                      <p class="mb-3 text-muted font-weight-bold small text-uppercase" style="letter-spacing: 0.04em;">{{ $experience->company }}</p>
+                      @endif
+                      <p class="mb-0">{{ $experience->description }}</p>
                   </div>
                   <div class="resume-date text-md-right">
                       <span class="text-primary">{{ $experience->start_date->format('F Y') }} — {{ $experience->is_current ? 'Present' : ($experience->end_date ? $experience->end_date->format('F Y') : '—') }}</span>
